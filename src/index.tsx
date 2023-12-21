@@ -4,15 +4,19 @@ import { RouterProvider } from 'react-router-dom';
 
 import reportWebVitals from './reportWebVitals';
 import router from './router';
-import GlobalStyle from './styles/globalStyle';
+import { GlobalStyle } from './styles/globalStyle';
+import { ThemeProvider } from 'styled-components';
+import { theme } from './styles/theme';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <GlobalStyle />
-    <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );
 
