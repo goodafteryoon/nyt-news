@@ -122,6 +122,7 @@ export const GlobalStyle = styled.createGlobalStyle`
 
   body {
     line-height: 1;
+    font-family: 'Apple SD Gothic Neo', 'Noto Sans KR';
   }
 
   menu,
@@ -149,6 +150,7 @@ export const GlobalStyle = styled.createGlobalStyle`
   }
 
   a {
+    color: inherit;
     text-decoration: none;
   }
 

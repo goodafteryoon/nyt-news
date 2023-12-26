@@ -2,15 +2,22 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import Home from './pages/home';
 import Scrap from './pages/scrap';
+import Layout from 'components/layouts/Layout';
+import { PATHS } from 'constants/routesPath';
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <Home />,
-  },
-  {
-    path: '/scrap',
-    element: <Scrap />,
+    element: <Layout />,
+    children: [
+      {
+        path: PATHS.HOME,
+        element: <Home />,
+      },
+      {
+        path: PATHS.SCRAP,
+        element: <Scrap />,
+      },
+    ],
   },
 ]);
 
