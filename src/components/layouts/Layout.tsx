@@ -1,13 +1,11 @@
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
 
-import FilterHeader from 'components/FilterHeader';
 import BottomNavigation from 'components/BottomNavigation';
 
 const Layout = () => {
   return (
     <Container>
-      <FilterHeader />
       <ContentWrapper>
         <Outlet />
       </ContentWrapper>
@@ -27,6 +25,6 @@ const Container = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  padding: 60px 20px 85px;
+  padding-bottom: 85px;
   /* overflow: scroll; */
 `;
