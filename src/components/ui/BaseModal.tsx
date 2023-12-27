@@ -37,11 +37,8 @@ const ModalOverlay = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  background-color: ${({ theme }) => theme.colors.white};
   position: fixed;
-  padding: 20px;
-  border-radius: 16px;
+  background-color: ${({ theme }) => theme.colors.white};
   z-index: 99;
-  display: flex;
-  flex-direction: column;
+  border-radius: 16px;
 `;
