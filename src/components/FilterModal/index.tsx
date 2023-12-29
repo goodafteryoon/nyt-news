@@ -3,7 +3,7 @@ import { useState } from 'react';
 import BaseModal from 'components/ui/BaseModal';
 import styled from 'styled-components';
 
-interface FilterOptions {
+interface FiltersState {
   searchTerm: string;
   selectedDate: string;
   selectedCountries: string[];
@@ -12,7 +12,7 @@ interface FilterOptions {
 interface FilterModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onApplyFilter: (filters: FilterOptions) => void;
+  onApplyFilter: (filters: FiltersState) => void;
 }
 
 const countries = [
