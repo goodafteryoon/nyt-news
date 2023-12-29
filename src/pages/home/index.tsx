@@ -14,7 +14,6 @@ const Home = () => {
     <>
       <FilterHeader onOpenModal={() => setIsModalOpen(true)} />
       <ContentWrapper>
-        <div>Home page</div>
         <ArticleList />
       </ContentWrapper>
       <FilterModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

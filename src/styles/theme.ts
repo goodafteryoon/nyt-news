@@ -8,6 +8,7 @@ const colors = {
   subBlue: '#82B0F4',
   gray: '#C4C4C4',
   darkGray: '#6D6D6D',
+  yellowStar: '#FFB800',
 };
 
 export const theme: DefaultTheme = {

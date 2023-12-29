@@ -28,7 +28,7 @@ const Container = styled.div`
 
 const ContentWrapper = styled.div`
   height: calc(100% - ${BOTTOM_NAVIGATION_HEIGHT});
-  padding-bottom: ${BOTTOM_NAVIGATION_HEIGHT};
+  /* padding-bottom: ${BOTTOM_NAVIGATION_HEIGHT}; */
   overflow: scroll;
   &::-webkit-scrollbar {
     display: none;

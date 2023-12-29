@@ -11,7 +11,9 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "axios": "^1.6.3",
+    "dayjs": "^1.11.10",
     "react": "^18.2.0",
+    "react-datepicker": "^4.25.0",
     "react-dom": "^18.2.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.21.0",
@@ -47,6 +49,7 @@
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
+    "@types/react-datepicker": "^4.19.4",
     "@types/react-query": "^1.2.9",
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.34"
