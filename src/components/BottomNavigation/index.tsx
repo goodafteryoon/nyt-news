@@ -51,7 +51,7 @@ const Wrapper = styled.nav`
   font-size: 10px;
   font-weight: 600;
   line-height: 12px;
-  border-radius: 30px;
+  border-radius: 30px 30px 0 0;
   display: flex;
   align-items: center;
   position: fixed;

@@ -1,21 +1,16 @@
 import styled from 'styled-components';
 
 import { theme } from 'styles/theme';
+import { useFilterStore } from 'store/articleFilter';
 import CalendarIcon from 'assets/imageComponents/CalendarIcon';
 import SearchIcon from 'assets/imageComponents/SearchIcon';
 
-interface FiltersState {
-  searchTerm: string;
-  selectedDate: string;
-  selectedCountries: string[];
-}
-
 interface FilterHeaderProps {
-  filters: FiltersState;
   onOpenModal: () => void;
 }
 
-const FilterHeader = ({ filters, onOpenModal }: FilterHeaderProps) => {
+const FilterHeader = ({ onOpenModal }: FilterHeaderProps) => {
+  const { filters } = useFilterStore();
   const { searchTerm, selectedDate, selectedCountries } = filters;
 
   const getCountryDisplay = () => {

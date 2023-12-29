@@ -1,19 +1,13 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
 import BaseModal from 'components/ui/BaseModal';
 import BaseButton from 'components/ui/BaseButton';
-
-interface FiltersState {
-  searchTerm: string;
-  selectedDate: string;
-  selectedCountries: string[];
-}
+import { useFilterStore } from 'store/articleFilter';
+import { FiltersState } from 'store/articleFilter/type';
 
 interface FilterModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onApplyFilter: (filters: FiltersState) => void;
 }
 
 const countries = [
@@ -27,23 +21,26 @@ const countries = [
   '영국',
 ];
 
-const FilterModal = ({ isOpen, onClose, onApplyFilter }: FilterModalProps) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+const FilterModal = ({ isOpen, onClose }: FilterModalProps) => {
+  const { filters, setFilters } = useFilterStore();
 
   const handleCountrySelection = (country: string) => {
-    setSelectedCountries(
-      (prevSelected) =>
-        prevSelected.includes(country)
-          ? prevSelected.filter((c) => c !== country) // 선택 해제
-          : [...prevSelected, country] // 선택
-    );
+    const newCountries = filters.selectedCountries.includes(country)
+      ? filters.selectedCountries.filter((c) => c !== country)
+      : [...filters.selectedCountries, country];
+
+    updateFilter('selectedCountries', newCountries);
   };
 
-  // 필터 적용 및 모달 닫기
-  const handleApplyFilter = () => {
-    onApplyFilter({ searchTerm, selectedDate, selectedCountries });
+  const updateFilter = (key: keyof FiltersState, value: string | string[]) => {
+    setFilters({
+      ...filters,
+      [key]: value,
+    });
+  };
+
+  const applyFilters = () => {
+    // TODO : 필터에 따른 데이터 요청 로직 추가할 것
     onClose();
   };
 
@@ -55,8 +52,8 @@ const FilterModal = ({ isOpen, onClose, onApplyFilter }: FilterModalProps) => {
           <Input
             type='text'
             placeholder='검색하실 헤드라인을 입력해주세요'
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            value={filters.searchTerm}
+            onChange={(e) => updateFilter('searchTerm', e.target.value)}
           />
         </FilterOption>
         <FilterOption>
@@ -64,8 +61,8 @@ const FilterModal = ({ isOpen, onClose, onApplyFilter }: FilterModalProps) => {
           <Input
             type='date'
             placeholder='날짜를 선택해주세요'
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
+            value={filters.selectedDate}
+            onChange={(e) => updateFilter('selectedDate', e.target.value)}
           />
         </FilterOption>
         <FilterOption>
@@ -74,7 +71,7 @@ const FilterModal = ({ isOpen, onClose, onApplyFilter }: FilterModalProps) => {
             {countries.map((country) => (
               <CountryChip
                 key={country}
-                selected={selectedCountries.includes(country)}
+                selected={filters.selectedCountries.includes(country)}
                 onClick={() => handleCountrySelection(country)}
               >
                 {country}
@@ -83,7 +80,7 @@ const FilterModal = ({ isOpen, onClose, onApplyFilter }: FilterModalProps) => {
           </CountriesContainer>
         </FilterOption>
 
-        <BaseButton onClick={handleApplyFilter} buttonText='필터 적용하기' />
+        <BaseButton onClick={applyFilters} buttonText='필터 적용하기' />
       </ModalContainer>
     </BaseModal>
   );
