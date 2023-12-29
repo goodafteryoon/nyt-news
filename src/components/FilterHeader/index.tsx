@@ -9,30 +9,50 @@ interface FilterHeaderProps {
   onOpenModal: () => void;
 }
 
+const ALL_HEADLINES = '전체 헤드라인';
+const ALL_DATES = '전체 날짜';
+const ALL_COUNTRIES = '전체 국가';
+
 const FilterHeader = ({ onOpenModal }: FilterHeaderProps) => {
   const { filters } = useFilterStore();
   const { searchTerm, selectedDate, selectedCountries } = filters;
 
+  const isSearchTermActive = !!searchTerm && searchTerm.trim() !== '';
+  const isDateActive = !!selectedDate && selectedDate.trim() !== '';
+  const isCountriesActive = selectedCountries.length > 0;
+
   const getCountryDisplay = () => {
     const count = selectedCountries.length;
-    if (count === 0) return '전체 국가';
-    if (count === 1) return selectedCountries[0];
-    return `${selectedCountries[0]} 외 ${count - 1}개`;
+    if (count === 0) return ALL_COUNTRIES;
+    if (count === 1) return selectedCountries[0].name;
+    return `${selectedCountries[0].name} 외 ${count - 1}개`;
   };
 
   return (
     <>
       <Wrapper>
         <Container>
-          <FilterChip onClick={onOpenModal}>
-            <SearchIcon color={theme.colors.darkGray} />
-            {searchTerm || '전체 헤드라인'}
+          <FilterChip onClick={onOpenModal} $isActive={isSearchTermActive}>
+            <SearchIcon
+              color={
+                isSearchTermActive
+                  ? theme.colors.mainBlue
+                  : theme.colors.darkGray
+              }
+            />
+            {searchTerm || ALL_HEADLINES}
           </FilterChip>
-          <FilterChip onClick={onOpenModal}>
-            <CalendarIcon color={theme.colors.darkGray} />
-            {selectedDate || '전체 날짜'}
+          <FilterChip onClick={onOpenModal} $isActive={isDateActive}>
+            <CalendarIcon
+              color={
+                isDateActive ? theme.colors.mainBlue : theme.colors.darkGray
+              }
+            />
+            {selectedDate || ALL_DATES}
           </FilterChip>
-          <FilterChip onClick={onOpenModal}>{getCountryDisplay()}</FilterChip>
+          <FilterChip onClick={onOpenModal} $isActive={isCountriesActive}>
+            {getCountryDisplay()}
+          </FilterChip>
         </Container>
       </Wrapper>
     </>
@@ -61,7 +81,7 @@ const Container = styled.div`
   gap: 7px;
 `;
 
-const FilterChip = styled.button`
+const FilterChip = styled.button<{ $isActive: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -69,5 +89,9 @@ const FilterChip = styled.button`
   height: 34px;
   padding: 0 12px;
   border-radius: 30px;
-  border: 1px solid ${(props) => props.theme.colors.gray};
+  color: ${({ $isActive }) =>
+    $isActive ? theme.colors.mainBlue : theme.colors.black};
+  border: 1px solid
+    ${({ $isActive }) =>
+      $isActive ? theme.colors.mainBlue : theme.colors.gray};
 `;
