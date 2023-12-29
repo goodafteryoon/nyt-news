@@ -5,11 +5,11 @@ export interface Root {
 }
 
 export interface Response {
-  docs: Doc[];
+  docs: Article[];
   meta: Meta;
 }
 
-export interface Doc {
+export interface Article {
   abstract: string;
   web_url: string;
   snippet: string;
@@ -22,14 +22,12 @@ export interface Doc {
   document_type: string;
   news_desk: string;
   section_name: string;
+  subsection_name?: string;
   byline: Byline;
   type_of_material: string;
   _id: string;
   word_count: number;
   uri: string;
-  print_section?: string;
-  print_page?: string;
-  subsection_name?: string;
 }
 
 export interface Multimedia {
@@ -60,9 +58,9 @@ export interface Legacy {
 
 export interface Headline {
   main: string;
-  kicker?: string;
+  kicker?: string | null;
   content_kicker: any;
-  print_headline?: string;
+  print_headline?: string | null;
   name: any;
   seo: any;
   sub: any;
@@ -76,14 +74,14 @@ export interface Keyword {
 }
 
 export interface Byline {
-  original?: string;
+  original?: string | null;
   person: Person[];
   organization: any;
 }
 
 export interface Person {
   firstname: string;
-  middlename?: string;
+  middlename: any;
   lastname: string;
   qualifier: any;
   title: any;

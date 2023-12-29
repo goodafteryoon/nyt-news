@@ -157,6 +157,8 @@ export const GlobalStyle = styled.createGlobalStyle`
   button {
     background: none;
     border: 0;
+    margin: 0;
+    padding: 0;
     cursor: pointer;
   }
 `;

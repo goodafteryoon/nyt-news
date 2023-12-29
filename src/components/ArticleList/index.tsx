@@ -1,9 +1,12 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { theme } from 'styles/theme';
 import { formatDate } from 'utils/date';
+import { Article } from 'models/article';
 import articles from 'mock/article.json';
 import StarIcon from 'assets/imageComponents/StarIcon';
-import { theme } from 'styles/theme';
+import FilledStarIcon from 'assets/imageComponents/FilledStarIcon';
 
 const ArticleList = () => {
   const articleList = articles.response.docs;
@@ -11,18 +14,18 @@ const ArticleList = () => {
   return (
     <ArticleContainer>
       {articleList.map((item) => (
-        <Article key={item._id}>
+        <ArticlItem key={item._id}>
           <HeadlineContainer>
             <Headline>{item.headline.main}</Headline>
-            <button>
+            <ScrapButton>
               <StarIcon color={theme.colors.darkGray} />
-            </button>
+            </ScrapButton>
           </HeadlineContainer>
           <InfoContainer>
             <Author>{item.byline.original?.replace(/^By /, '')}</Author>
             <PublishedDate>{formatDate(item.pub_date)}</PublishedDate>
           </InfoContainer>
-        </Article>
+        </ArticlItem>
       ))}
     </ArticleContainer>
   );
@@ -37,7 +40,7 @@ const ArticleContainer = styled.ul`
   gap: 8px;
 `;
 
-const Article = styled.li`
+const ArticlItem = styled.li`
   display: flex;
   flex-direction: column;
   background-color: ${(props) => props.theme.colors.white};
@@ -76,3 +79,5 @@ const PublishedDate = styled.span`
   font-weight: 400;
   line-height: 20px;
 `;
+
+const ScrapButton = styled.button``;
