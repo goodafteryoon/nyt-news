@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import styled from 'styled-components';
 
 import BaseModal from 'components/ui/BaseModal';
-import styled from 'styled-components';
+import BaseButton from 'components/ui/BaseButton';
 
 interface FiltersState {
   searchTerm: string;
@@ -82,7 +83,7 @@ const FilterModal = ({ isOpen, onClose, onApplyFilter }: FilterModalProps) => {
           </CountriesContainer>
         </FilterOption>
 
-        <Button onClick={handleApplyFilter}>필터 적용하기</Button>
+        <BaseButton onClick={handleApplyFilter} buttonText='필터 적용하기' />
       </ModalContainer>
     </BaseModal>
   );
@@ -136,16 +137,4 @@ const CountryChip = styled.div<{ selected: boolean }>`
   padding: 6px 12px 4px 12px;
   justify-content: center;
   align-items: center;
-`;
-
-const Button = styled.button`
-  width: 295px;
-  height: 60px;
-  border-radius: 16px;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 24px;
-  color: ${(props) => props.theme.colors.white};
-  background-color: ${(props) => props.theme.colors.mainBlue};
 `;

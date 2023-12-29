@@ -3,6 +3,8 @@ import { Outlet } from 'react-router-dom';
 
 import BottomNavigation from 'components/BottomNavigation';
 
+const BOTTOM_NAVIGATION_HEIGHT = '85px';
+
 const Layout = () => {
   return (
     <Container>
@@ -25,6 +27,12 @@ const Container = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  padding-bottom: 85px;
-  /* overflow: scroll; */
+  height: calc(100% - ${BOTTOM_NAVIGATION_HEIGHT});
+  padding-bottom: ${BOTTOM_NAVIGATION_HEIGHT};
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 `;

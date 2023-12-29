@@ -1,12 +1,17 @@
+import { useState } from 'react';
+import styled from 'styled-components';
+
+import ArticleList from 'components/ArticleList';
 import FilterHeader from 'components/FilterHeader';
 import FilterModal from 'components/FilterModal';
-import { useState } from 'react';
 
 interface FiltersState {
   searchTerm: string;
   selectedDate: string;
   selectedCountries: string[];
 }
+
+const HEADER_HEIGHT = '60px';
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,7 +32,10 @@ const Home = () => {
         filters={filters}
         onOpenModal={() => setIsModalOpen(true)}
       />
-      <div>Home page</div>
+      <ContentWrapper>
+        <div>Home page</div>
+        <ArticleList />
+      </ContentWrapper>
       <FilterModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -38,3 +46,7 @@ const Home = () => {
 };
 
 export default Home;
+
+const ContentWrapper = styled.div`
+  padding-top: ${HEADER_HEIGHT};
+`;
