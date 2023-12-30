@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { theme } from 'styles/theme';
-import { formatDate } from 'utils/date';
+import { formatDateForDisplayArticle } from 'utils/date';
 import { Article } from 'models/article';
 import articles from 'mock/article.json';
 import StarIcon from 'assets/imageComponents/StarIcon';
@@ -23,7 +23,9 @@ const ArticleList = () => {
           </HeadlineContainer>
           <InfoContainer>
             <Author>{item.byline.original?.replace(/^By /, '')}</Author>
-            <PublishedDate>{formatDate(item.pub_date)}</PublishedDate>
+            <PublishedDate>
+              {formatDateForDisplayArticle(item.pub_date)}
+            </PublishedDate>
           </InfoContainer>
         </ArticlItem>
       ))}

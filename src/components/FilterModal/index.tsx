@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import ReactDatePicker from 'react-datepicker';
-import dayjs from 'dayjs';
 
 import BaseModal from 'components/ui/BaseModal';
 import BaseButton from 'components/ui/BaseButton';
@@ -9,10 +8,7 @@ import CalendarIcon from 'assets/imageComponents/CalendarIcon';
 import { theme } from 'styles/theme';
 import { useFilterStore } from 'store/articleFilter';
 import { Country, FiltersState } from 'store/articleFilter/type';
-import {
-  formatDateForDisplayInput,
-  formatDateForDisplayHeader,
-} from 'utils/date';
+import { formatDateForDisplayInput } from 'utils/date';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -34,57 +30,48 @@ const COUNTRIES = [
 
 const FilterModal = ({ isOpen, onClose }: FilterModalProps) => {
   const { filters, setFilters } = useFilterStore();
-
-  // selectedDate를 Date 객체로 관리
-  const [selectedDate, setSelectedDate] = useState<Date | null>(
-    filters.selectedDate ? dayjs(filters.selectedDate).toDate() : null
-  );
+  const [localFilters, setLocalFilters] = useState<FiltersState>({
+    searchTerm: filters.searchTerm || '',
+    selectedDate: filters.selectedDate || null,
+    selectedCountries: filters.selectedCountries || [],
+  });
 
   const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
-    updateFilter('selectedDate', date ? formatDateForDisplayHeader(date) : '');
+    setLocalFilters({ ...localFilters, selectedDate: date });
   };
 
-  const isSelectedCountry = (
-    selectedCountries: Country[],
-    countryValue: string
+  const isCountrySelected = (
+    country: Country,
+    selectedCountries: Country[]
   ) => {
-    return selectedCountries.some((country) => country.value === countryValue);
+    return selectedCountries.some((c) => c.value === country.value);
   };
 
   const handleCountrySelection = (selectedCountry: Country) => {
-    const isAlreadySelected = isSelectedCountry(
-      filters.selectedCountries,
-      selectedCountry.value
-    );
-
-    const newCountries = isAlreadySelected
-      ? filters.selectedCountries.filter(
-          (country) => country.value !== selectedCountry.value
-        )
-      : [...filters.selectedCountries, selectedCountry];
-
-    updateFilter('selectedCountries', newCountries);
-  };
-
-  const updateFilter = (key: keyof FiltersState, value: string | Country[]) => {
-    setFilters({
-      ...filters,
-      [key]: value,
+    setLocalFilters((prevFilters) => {
+      const isSelected = isCountrySelected(
+        selectedCountry,
+        prevFilters.selectedCountries
+      );
+      return {
+        ...prevFilters,
+        selectedCountries: isSelected
+          ? prevFilters.selectedCountries.filter(
+              (c) => c.value !== selectedCountry.value
+            )
+          : [...prevFilters.selectedCountries, selectedCountry],
+      };
     });
   };
 
   const applyFilters = () => {
-    // TODO : 필터에 따른 데이터 요청 로직 추가할 것
-    setFilters({
-      searchTerm: filters.searchTerm,
-      selectedDate: selectedDate
-        ? formatDateForDisplayHeader(selectedDate)
-        : '',
-      selectedCountries: filters.selectedCountries,
-    });
+    setFilters(localFilters);
     onClose();
   };
+
+  const displayDate = localFilters.selectedDate
+    ? formatDateForDisplayInput(localFilters.selectedDate)
+    : '날짜를 선택해주세요';
 
   return (
     <BaseModal isOpen={isOpen} onClose={onClose}>
@@ -94,23 +81,20 @@ const FilterModal = ({ isOpen, onClose }: FilterModalProps) => {
           <Input
             type='text'
             placeholder='검색하실 헤드라인을 입력해주세요'
-            value={filters.searchTerm}
-            onChange={(e) => updateFilter('searchTerm', e.target.value)}
+            value={localFilters.searchTerm}
+            onChange={(e) =>
+              setLocalFilters({ ...localFilters, searchTerm: e.target.value })
+            }
           />
         </FilterOption>
         <FilterOption>
           <HeadLineLabel>날짜</HeadLineLabel>
           <ReactDatePicker
-            selected={selectedDate}
+            selected={localFilters.selectedDate}
             onChange={handleDateChange}
-            dateFormat='yyyy-MM-dd'
             customInput={
               <CustomInputContainer>
-                <span>
-                  {selectedDate
-                    ? formatDateForDisplayInput(selectedDate)
-                    : '날짜를 선택해주세요'}
-                </span>
+                <span>{displayDate}</span>
                 <CalendarIcon color={theme.colors.gray} />
               </CustomInputContainer>
             }
@@ -122,9 +106,9 @@ const FilterModal = ({ isOpen, onClose }: FilterModalProps) => {
             {COUNTRIES.map((country) => (
               <CountryChip
                 key={country.value}
-                selected={isSelectedCountry(
-                  filters.selectedCountries,
-                  country.value
+                selected={isCountrySelected(
+                  country,
+                  localFilters.selectedCountries
                 )}
                 onClick={() => handleCountrySelection(country)}
               >

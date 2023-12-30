@@ -1,10 +1,10 @@
-export interface Root {
+export interface GetSearchArticlesResponse {
   status: string;
   copyright: string;
-  response: Response;
+  response: ApiResponse;
 }
 
-export interface Response {
+export interface ApiResponse {
   docs: Article[];
   meta: Meta;
 }
@@ -22,24 +22,24 @@ export interface Article {
   document_type: string;
   news_desk: string;
   section_name: string;
-  subsection_name?: string;
   byline: Byline;
   type_of_material: string;
   _id: string;
   word_count: number;
   uri: string;
+  subsection_name?: string;
 }
 
 export interface Multimedia {
   rank: number;
   subtype: string;
-  caption: any;
-  credit: any;
+  caption: null | string;
+  credit: null | string;
   type: string;
   url: string;
   height: number;
   width: number;
-  legacy: Legacy;
+  legacy?: Legacy;
   subType: string;
   crop_name: string;
 }
@@ -58,12 +58,12 @@ export interface Legacy {
 
 export interface Headline {
   main: string;
-  kicker?: string | null;
-  content_kicker: any;
-  print_headline?: string | null;
-  name: any;
-  seo: any;
-  sub: any;
+  kicker?: null | string;
+  content_kicker?: null | string;
+  print_headline?: null | string;
+  name: null | string;
+  seo: null | string;
+  sub: null | string;
 }
 
 export interface Keyword {
@@ -74,17 +74,17 @@ export interface Keyword {
 }
 
 export interface Byline {
-  original?: string | null;
+  original?: null | string;
   person: Person[];
-  organization: any;
+  organization: null | string;
 }
 
 export interface Person {
   firstname: string;
-  middlename: any;
+  middlename?: null | string;
   lastname: string;
-  qualifier: any;
-  title: any;
+  qualifier: null | string;
+  title: null | string;
   role: string;
   organization: string;
   rank: number;

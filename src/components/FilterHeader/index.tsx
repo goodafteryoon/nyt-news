@@ -4,6 +4,7 @@ import { theme } from 'styles/theme';
 import { useFilterStore } from 'store/articleFilter';
 import CalendarIcon from 'assets/imageComponents/CalendarIcon';
 import SearchIcon from 'assets/imageComponents/SearchIcon';
+import { formatDateForDisplayHeader } from 'utils/date';
 
 interface FilterHeaderProps {
   onOpenModal: () => void;
@@ -18,15 +19,21 @@ const FilterHeader = ({ onOpenModal }: FilterHeaderProps) => {
   const { searchTerm, selectedDate, selectedCountries } = filters;
 
   const isSearchTermActive = !!searchTerm && searchTerm.trim() !== '';
-  const isDateActive = !!selectedDate && selectedDate.trim() !== '';
-  const isCountriesActive = selectedCountries.length > 0;
+  const isDateActive = !!selectedDate;
+  const isCountriesActive = (selectedCountries || []).length > 0;
 
   const getCountryDisplay = () => {
-    const count = selectedCountries.length;
+    const countries = selectedCountries || [];
+
+    const count = countries.length;
     if (count === 0) return ALL_COUNTRIES;
-    if (count === 1) return selectedCountries[0].name;
-    return `${selectedCountries[0].name} 외 ${count - 1}개`;
+    if (count === 1) return countries[0].name;
+    return `${countries[0].name} 외 ${count - 1}개`;
   };
+
+  const displayDate = selectedDate
+    ? formatDateForDisplayHeader(selectedDate)
+    : ALL_DATES;
 
   return (
     <>
@@ -48,7 +55,7 @@ const FilterHeader = ({ onOpenModal }: FilterHeaderProps) => {
                 isDateActive ? theme.colors.mainBlue : theme.colors.darkGray
               }
             />
-            {selectedDate || ALL_DATES}
+            {displayDate}
           </FilterChip>
           <FilterChip onClick={onOpenModal} $isActive={isCountriesActive}>
             {getCountryDisplay()}
@@ -85,13 +92,20 @@ const FilterChip = styled.button<{ $isActive: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
+  // TODO : font 적용 이슈 해결
+  font-family: Apple SD Gothic Neo;
   gap: 4px;
   height: 34px;
-  padding: 0 12px;
+  padding: 6px 12px 4px;
   border-radius: 30px;
   color: ${({ $isActive }) =>
     $isActive ? theme.colors.mainBlue : theme.colors.black};
   border: 1px solid
     ${({ $isActive }) =>
       $isActive ? theme.colors.mainBlue : theme.colors.gray};
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 171.429% */
+  letter-spacing: -0.56px;
 `;

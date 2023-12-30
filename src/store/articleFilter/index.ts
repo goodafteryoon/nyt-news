@@ -10,7 +10,7 @@ interface FilterStore {
 export const useFilterStore = create<FilterStore>((set) => ({
   filters: {
     searchTerm: '',
-    selectedDate: '',
+    selectedDate: null,
     selectedCountries: [],
   },
   setFilters: (newFilters) => set(() => ({ filters: newFilters })),

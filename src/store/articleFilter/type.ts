@@ -4,6 +4,6 @@ export interface Country {
 }
 export interface FiltersState {
   searchTerm: string;
-  selectedDate: string;
+  selectedDate: Date | null;
   selectedCountries: Country[];
 }
