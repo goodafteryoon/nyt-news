@@ -8,6 +8,7 @@ import reportWebVitals from './reportWebVitals';
 import router from './router';
 import { GlobalStyle } from './styles/globalStyle';
 import { theme } from './styles/theme';
+import ScrapProvider from 'context/ScrapContext';
 
 const queryClient = new QueryClient();
 
@@ -17,10 +18,12 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <RouterProvider router={router} />
-      </ThemeProvider>
+      <ScrapProvider>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </ScrapProvider>
     </QueryClientProvider>
   </React.StrictMode>
 );

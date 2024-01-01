@@ -6,7 +6,6 @@ import BaseModal from 'components/ui/BaseModal';
 import BaseButton from 'components/ui/BaseButton';
 import CalendarIcon from 'assets/imageComponents/CalendarIcon';
 import { theme } from 'styles/theme';
-import { useFilterStore } from 'store/articleFilter';
 import { Country, FiltersState } from 'store/articleFilter/type';
 import { formatDateForDisplayInput } from 'utils/date';
 
@@ -15,6 +14,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 interface FilterModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onApplyFilters: (filters: FiltersState) => void;
 }
 
 const COUNTRIES = [
@@ -28,12 +28,11 @@ const COUNTRIES = [
   { name: '영국', value: 'UK' },
 ];
 
-const FilterModal = ({ isOpen, onClose }: FilterModalProps) => {
-  const { filters, setFilters } = useFilterStore();
+const FilterModal = ({ isOpen, onClose, onApplyFilters }: FilterModalProps) => {
   const [localFilters, setLocalFilters] = useState<FiltersState>({
-    searchTerm: filters.searchTerm || '',
-    selectedDate: filters.selectedDate || null,
-    selectedCountries: filters.selectedCountries || [],
+    searchTerm: '',
+    selectedDate: null,
+    selectedCountries: [],
   });
 
   const handleDateChange = (date: Date | null) => {
@@ -65,7 +64,7 @@ const FilterModal = ({ isOpen, onClose }: FilterModalProps) => {
   };
 
   const applyFilters = () => {
-    setFilters(localFilters);
+    onApplyFilters(localFilters);
     onClose();
   };
 
