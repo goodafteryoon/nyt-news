@@ -92,8 +92,6 @@ const FilterChip = styled.button<{ $isActive: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  // TODO : font 적용 이슈 해결
-  font-family: Apple SD Gothic Neo;
   gap: 4px;
   height: 34px;
   padding: 6px 12px 4px;
@@ -104,7 +102,6 @@ const FilterChip = styled.button<{ $isActive: boolean }>`
     ${({ $isActive }) =>
       $isActive ? theme.colors.mainBlue : theme.colors.gray};
   font-size: 13px;
-  font-style: normal;
   font-weight: 400;
   line-height: 24px; /* 171.429% */
   letter-spacing: -0.56px;
