@@ -15,6 +15,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 interface FilterModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onApplyFilters: (filters: FiltersState) => void;
 }
 
 const COUNTRIES = [
@@ -28,7 +29,7 @@ const COUNTRIES = [
   { name: '영국', value: 'UK' },
 ];
 
-const FilterModal = ({ isOpen, onClose }: FilterModalProps) => {
+const FilterModal = ({ isOpen, onClose, onApplyFilters }: FilterModalProps) => {
   const { filters, setFilters } = useFilterStore();
   const [localFilters, setLocalFilters] = useState<FiltersState>({
     searchTerm: filters.searchTerm || '',
@@ -65,7 +66,7 @@ const FilterModal = ({ isOpen, onClose }: FilterModalProps) => {
   };
 
   const applyFilters = () => {
-    setFilters(localFilters);
+    onApplyFilters(localFilters);
     onClose();
   };
 

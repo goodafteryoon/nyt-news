@@ -1,21 +1,21 @@
 import styled from 'styled-components';
 
 import { theme } from 'styles/theme';
-import { useFilterStore } from 'store/articleFilter';
 import CalendarIcon from 'assets/imageComponents/CalendarIcon';
 import SearchIcon from 'assets/imageComponents/SearchIcon';
 import { formatDateForDisplayHeader } from 'utils/date';
+import { FiltersState } from 'store/articleFilter/type';
 
 interface FilterHeaderProps {
   onOpenModal: () => void;
+  filters: FiltersState;
 }
 
 const ALL_HEADLINES = '전체 헤드라인';
 const ALL_DATES = '전체 날짜';
 const ALL_COUNTRIES = '전체 국가';
 
-const FilterHeader = ({ onOpenModal }: FilterHeaderProps) => {
-  const { filters } = useFilterStore();
+const FilterHeader = ({ onOpenModal, filters }: FilterHeaderProps) => {
   const { searchTerm, selectedDate, selectedCountries } = filters;
 
   const isSearchTermActive = !!searchTerm && searchTerm.trim() !== '';
