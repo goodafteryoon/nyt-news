@@ -5,6 +5,7 @@ import { useScrapped } from 'context/ScrapContext';
 import FilterHeader from 'components/FilterHeader';
 import FilterModal from 'components/FilterModal';
 import ArticleList from 'components/ArticleList';
+import EmptyArticle from 'components/ArticleList/EmptyArticle';
 import { FiltersState } from 'store/articleFilter/type';
 import { filterScrappedArticles } from 'utils/filterScrappedArticles';
 
@@ -28,7 +29,7 @@ const Scrap = () => {
 
   return (
     <>
-      {noScrapped && <div>스크랩한 기사가 없습니다.</div>}
+      {noScrapped && <EmptyArticle />}
       {scrapped && (
         <>
           <FilterHeader

@@ -30,7 +30,7 @@ const COUNTRIES = [
 ];
 
 const FilterModal = ({ isOpen, onClose, onApplyFilters }: FilterModalProps) => {
-  const { filters, setFilters } = useFilterStore();
+  const { filters } = useFilterStore();
   const [localFilters, setLocalFilters] = useState<FiltersState>({
     searchTerm: filters.searchTerm || '',
     selectedDate: filters.selectedDate || null,
