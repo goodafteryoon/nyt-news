@@ -4,18 +4,40 @@ import { theme } from 'styles/theme';
 import { Article } from 'models/article';
 import { formatDateForApi, formatDateForDisplayArticle } from 'utils/date';
 import StarIcon from 'assets/imageComponents/StarIcon';
+import FilledStarIcon from 'assets/imageComponents/FilledStarIcon';
+import { useScrapped } from 'context/ScrapContext';
 
 interface AritcleItemProps {
   article: Article;
 }
 
 const ArticleItem = ({ article }: AritcleItemProps) => {
+  const { scrapArticles, setScrapArticles } = useScrapped();
+
+  const isScrapped = scrapArticles.some((a) => a._id === article._id);
+
+  const toggleScrap = () => {
+    let updatedScraps;
+    if (isScrapped) {
+      updatedScraps = scrapArticles.filter((a) => a._id !== article._id);
+      alert('스크랩에서 삭제했습니다🔥');
+    } else {
+      updatedScraps = [...scrapArticles, article];
+      alert('스크랩에 추가됐습니다✨');
+    }
+    setScrapArticles(updatedScraps);
+  };
+
   return (
     <ArticlItem>
       <HeadlineContainer>
         <Headline>{article.headline.main}</Headline>
-        <ScrapButton>
-          <StarIcon color={theme.colors.darkGray} />
+        <ScrapButton onClick={toggleScrap}>
+          {isScrapped ? (
+            <FilledStarIcon color={theme.colors.yellowStar} />
+          ) : (
+            <StarIcon color={theme.colors.darkGray} />
+          )}
         </ScrapButton>
       </HeadlineContainer>
       <InfoContainer>
