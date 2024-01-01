@@ -1,50 +1,15 @@
 import { useEffect } from 'react';
-import styled from 'styled-components';
-import { useInfiniteQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
+import styled from 'styled-components';
 
 import { Article } from 'models/article';
-import { formatDateForApi } from 'utils/date';
-import { useFilterStore } from 'store/articleFilter';
-import { fetchFilteredArticles } from 'api/SearchArticle';
 import ArticleItem from 'components/ArticleList/ArticleItem';
 import SkeletonLoader from './SkeletonLoader';
+import useArticlesQuery from 'hooks/query/useArticlesQuery';
 
 const ArticleList = () => {
-  const { filters } = useFilterStore();
-  const { selectedDate, searchTerm, selectedCountries } = filters;
-  const formattedDate = selectedDate ? formatDateForApi(selectedDate) : '';
-
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isLoading,
-    isError,
-    error,
-    isFetchingNextPage,
-  } = useInfiniteQuery(
-    ['articles', { searchTerm, formattedDate, selectedCountries }],
-    ({ pageParam = 0 }) =>
-      fetchFilteredArticles({
-        page: pageParam,
-        countries: selectedCountries.map((c) => c.value),
-        pubDate: formattedDate,
-        headline: searchTerm,
-      }),
-    {
-      getNextPageParam: (lastPage, allPages) => {
-        const currentPage = allPages.length;
-        return currentPage;
-      },
-      retry: 3,
-      refetchOnWindowFocus: false,
-      cacheTime: 1000 * 60 * 5,
-      staleTime: 1000 * 60 * 3,
-      keepPreviousData: true,
-    }
-  );
-
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } =
+    useArticlesQuery();
   const { ref, inView } = useInView();
 
   useEffect(() => {
