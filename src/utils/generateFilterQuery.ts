@@ -1,10 +1,10 @@
-import { FilterParams } from 'models/searchArticle';
+import { FilterQuery } from 'models/searchArticle';
 
-export const generateFilterQuery = async ({
-  countries = [],
+export const generateFilterQuery = ({
+  countries,
   pubDate,
   headline,
-}: FilterParams) => {
+}: FilterQuery) => {
   const filteredGlocations =
     countries?.length > 0
       ? `glocations.contains:(${countries
