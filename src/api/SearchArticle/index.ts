@@ -14,7 +14,7 @@ export const fetchFilteredArticles = async ({
   page = 0,
 }: FilterQuery & { page?: number }): Promise<Article[]> => {
   try {
-    const fq = await generateFilterQuery({ countries, pubDate, headline });
+    const fq = generateFilterQuery({ countries, pubDate, headline });
 
     const response = await axios.get<GetSearchArticlesResponse>(URL, {
       params: {
@@ -29,7 +29,6 @@ export const fetchFilteredArticles = async ({
     }
     throw new Error('Failed to fetch articles');
   } catch (error) {
-    // 오류 처리
     if (axios.isAxiosError(error)) {
       console.error('Axios error: ', error.response?.data);
     } else {

@@ -33,7 +33,7 @@ const ArticlItemSkeleton = styled.div`
   padding: 10px 20px;
   border-radius: 8px;
   gap: 8px;
-  animation: pulse 1.5s ease-in-out infinite;
+  animation: ${pulse} 1.5s ease-in-out infinite;
 `;
 
 const HeadlineSkeleton = styled.div`
