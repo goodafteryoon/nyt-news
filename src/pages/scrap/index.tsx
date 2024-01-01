@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import ArticleItem from 'components/ArticleList/ArticleItem';
+import { useScrapped } from 'context/ScrapContext';
 import FilterHeader from 'components/FilterHeader';
 import FilterModal from 'components/FilterModal';
-import { useScrapped } from 'context/ScrapContext';
+import ArticleList from 'components/ArticleList';
 
 const HEADER_HEIGHT = '60px';
 
@@ -22,9 +22,7 @@ const Scrap = () => {
         <>
           <FilterHeader onOpenModal={() => setIsModalOpen(true)} />
           <ContentWrapper>
-            {scrapArticles.map((article) => (
-              <ArticleItem key={article._id} article={article} />
-            ))}
+            <ArticleList staticArticles={scrapArticles} />
           </ContentWrapper>
           <FilterModal
             isOpen={isModalOpen}

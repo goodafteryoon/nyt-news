@@ -2,8 +2,16 @@ import { useInfiniteQuery } from 'react-query';
 import { fetchFilteredArticles } from 'api/SearchArticle';
 import { useFilterStore } from 'store/articleFilter';
 import { formatDateForApi } from 'utils/date';
+import { Article } from 'models/article';
+import { FilterQuery } from 'models/searchArticle';
 
-const useArticlesQuery = () => {
+export type FetchArticlesFunction = (
+  params: FilterQuery & { page?: number }
+) => Promise<Article[]>;
+
+const useArticlesQuery = (
+  fetchArticles: FetchArticlesFunction = fetchFilteredArticles
+) => {
   const { filters } = useFilterStore();
   const { selectedDate, searchTerm, selectedCountries } = filters;
   const formattedDate = selectedDate ? formatDateForApi(selectedDate) : '';
@@ -11,7 +19,7 @@ const useArticlesQuery = () => {
   const articlesQuery = useInfiniteQuery(
     ['articles', { searchTerm, formattedDate, selectedCountries }],
     ({ pageParam = 0 }) =>
-      fetchFilteredArticles({
+      fetchArticles({
         page: pageParam,
         countries: selectedCountries.map((c) => c.value),
         pubDate: formattedDate,

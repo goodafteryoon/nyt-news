@@ -5,31 +5,38 @@ import styled from 'styled-components';
 import { Article } from 'models/article';
 import ArticleItem from 'components/ArticleList/ArticleItem';
 import SkeletonLoader from './SkeletonLoader';
-import useArticlesQuery from 'hooks/query/useArticlesQuery';
+import useArticlesQuery, {
+  FetchArticlesFunction,
+} from 'hooks/query/useArticlesQuery';
 
-const ArticleList = () => {
+interface ArticleListProps {
+  fetchArticles?: FetchArticlesFunction;
+  staticArticles?: Article[];
+}
+
+const ArticleList = ({ fetchArticles, staticArticles }: ArticleListProps) => {
   const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } =
-    useArticlesQuery();
+    useArticlesQuery(fetchArticles);
+
   const { ref, inView } = useInView();
 
+  const articlesToShow =
+    staticArticles || data?.pages.flatMap((group) => group);
+
   useEffect(() => {
-    if (inView && hasNextPage) {
+    if (!staticArticles && inView && hasNextPage) {
       fetchNextPage();
     }
-  }, [fetchNextPage, hasNextPage, inView]);
+  }, [fetchNextPage, hasNextPage, inView, staticArticles]);
 
   return (
     <ArticleContainer>
-      {data?.pages
-        .flatMap((group) => group)
-        .map((article: Article) => (
-          <ArticleItem key={article._id} article={article} />
-        ))}
+      {articlesToShow?.map((article: Article) => (
+        <ArticleItem key={article._id} article={article} />
+      ))}
       {isLoading && <SkeletonLoader />}
       {hasNextPage && (
-        <div ref={ref}>
-          {isFetchingNextPage ? <SkeletonLoader /> : '더 보기'}
-        </div>
+        <div ref={ref}>{isFetchingNextPage && <SkeletonLoader />}</div>
       )}
     </ArticleContainer>
   );
