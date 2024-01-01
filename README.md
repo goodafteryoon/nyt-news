@@ -44,7 +44,9 @@ IntersectionObserver API를 react에서 간편하게 사용하기 쉽도록 구�
 
 사용자의 로컬에 스크랩한 기사를 남기기 위해 사용했으나, LocalStorage의 용량이 5MB 한계가 있었습니다.
 
-추후 리팩토링에선 웹 스토리지의 IndexedDB를 활용해서 스크랩 데이터를 저장하고자 합니다.
+또한 zustand의 persist 미들웨어를 사용하면 상태를 LocalStorage에 자동으로 저장할 수 있으나, 이 프로젝트에서는 상태 관리를 위해 별도의 Context API를 구현하여 사용했습니다.
+
+추후 리팩토링에서는 zustand persist와 함께 IndexedDB를 사용하여 더 큰 용량의 데이터를 효과적으로 관리하고자 합니다.
 
 ### Jest
 
