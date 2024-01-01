@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { theme } from 'styles/theme';
 import { Article } from 'models/article';
-import { formatDateForApi, formatDateForDisplayArticle } from 'utils/date';
+import { formatDateForDisplayArticle } from 'utils/date';
 import StarIcon from 'assets/imageComponents/StarIcon';
 import FilledStarIcon from 'assets/imageComponents/FilledStarIcon';
 import { useScrapped } from 'context/ScrapContext';
