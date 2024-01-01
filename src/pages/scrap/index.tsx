@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { useScrapped } from 'context/ScrapContext';
@@ -6,6 +6,7 @@ import FilterHeader from 'components/FilterHeader';
 import FilterModal from 'components/FilterModal';
 import ArticleList from 'components/ArticleList';
 import { FiltersState } from 'store/articleFilter/type';
+import { filterScrappedArticles } from 'utils/filterScrappedArticles';
 
 const HEADER_HEIGHT = '60px';
 
@@ -17,6 +18,10 @@ const Scrap = () => {
     selectedDate: null,
     selectedCountries: [],
   });
+
+  const filteredArticles = useMemo(() => {
+    return filterScrappedArticles(scrapArticles, localFilters);
+  }, [scrapArticles, localFilters]);
 
   const noScrapped = scrapArticles.length === 0;
   const scrapped = scrapArticles.length > 0;
@@ -31,7 +36,7 @@ const Scrap = () => {
             filters={localFilters}
           />
           <ContentWrapper>
-            <ArticleList staticArticles={scrapArticles} />
+            <ArticleList staticArticles={filteredArticles} />
           </ContentWrapper>
           <FilterModal
             isOpen={isModalOpen}
