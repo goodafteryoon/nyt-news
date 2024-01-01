@@ -8,6 +8,8 @@ import {
 
 import { Article } from 'models/article';
 
+const SCRAP_ARTICLES_KEY = 'scrapArticles';
+
 interface ScrapContextType {
   scrapArticles: Article[];
   setScrapArticles: (articles: Article[]) => void;
@@ -16,12 +18,12 @@ interface ScrapContextType {
 const ScrapContext = createContext<ScrapContextType | undefined>(undefined);
 const ScrapProvider = ({ children }: { children: ReactNode }) => {
   const [scrapArticles, setScrapArticles] = useState<Article[]>(() => {
-    const localData = localStorage.getItem('scrapArticles');
+    const localData = localStorage.getItem(SCRAP_ARTICLES_KEY);
     return localData ? JSON.parse(localData) : [];
   });
 
   useEffect(() => {
-    localStorage.setItem('scrappedArticles', JSON.stringify(scrapArticles));
+    localStorage.setItem(SCRAP_ARTICLES_KEY, JSON.stringify(scrapArticles));
   }, [scrapArticles]);
 
   return (

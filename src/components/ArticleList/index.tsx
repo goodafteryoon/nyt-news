@@ -35,7 +35,7 @@ const ArticleList = ({ fetchArticles, staticArticles }: ArticleListProps) => {
         <ArticleItem key={article._id} article={article} />
       ))}
       {isLoading && <SkeletonLoader />}
-      {hasNextPage && (
+      {!staticArticles && hasNextPage && (
         <div ref={ref}>{isFetchingNextPage && <SkeletonLoader />}</div>
       )}
     </ArticleContainer>
