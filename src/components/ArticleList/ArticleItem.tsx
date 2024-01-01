@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import { theme } from 'styles/theme';
 import { Article } from 'models/article';
@@ -31,7 +32,9 @@ const ArticleItem = ({ article }: AritcleItemProps) => {
   return (
     <ArticlItem>
       <HeadlineContainer>
-        <Headline>{article.headline.main}</Headline>
+        <StyledLink to={article.web_url}>
+          <Headline>{article.headline.main}</Headline>
+        </StyledLink>
         <ScrapButton onClick={toggleScrap}>
           {isScrapped ? (
             <FilledStarIcon color={theme.colors.yellowStar} />
@@ -67,11 +70,14 @@ const HeadlineContainer = styled.div`
 `;
 
 const Headline = styled.h2`
-  max-width: 90%;
   font-size: 18px;
   font-weight: 600;
   line-height: 28px;
   letter-spacing: -0.9px;
+`;
+
+const StyledLink = styled(Link)`
+  max-width: 90%;
 `;
 
 const InfoContainer = styled.div`
